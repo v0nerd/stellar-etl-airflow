@@ -1,12 +1,12 @@
 import logging
 
 import pandas as pd
-import requests
 from google.cloud import storage
+from security import safe_requests
 
 
 def response_to_gcs(bucket_name, endpoint, destination_blob_name, columns):
-    response = requests.get(endpoint)
+    response = safe_requests.get(endpoint)
     euro_data = response.json()
     df = pd.DataFrame(euro_data, index=None, columns=columns)
     df["time"] = pd.to_datetime(df["time"], unit="ms")
